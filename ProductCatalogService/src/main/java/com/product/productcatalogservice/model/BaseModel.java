@@ -14,13 +14,4 @@ public abstract class BaseModel {
     private Date lastUpdatedAt;
     private Status status;
 
-    @Getter
-    @Setter
-    public static class Category extends BaseModel {
-
-        private String name;
-        private String description;
-        private List<Product> products;
-
-    }
 }
