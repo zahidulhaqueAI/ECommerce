@@ -4,3 +4,6 @@ This repository is regarding ECommerce project.I will be using following technol
 3. Micro services
 4. Apache Kafka Message Queue
 5. Redis
+
+V1 is ProductCatalog Service. 
+This is has very basic Rest API calls.
