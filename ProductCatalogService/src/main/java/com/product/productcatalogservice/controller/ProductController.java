@@ -5,6 +5,10 @@ import com.product.productcatalogservice.dtos.ProductDto;
 import com.product.productcatalogservice.model.Product;
 import com.product.productcatalogservice.services.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,16 +27,22 @@ public class ProductController {
 
     // get the Product by id
     @GetMapping("/products/{id}")
-    public ProductDto getProductById(@PathVariable("id") Long productId) {
+    public ResponseEntity<ProductDto> getProductById(@PathVariable("id") Long productId) {
+        try {
 
-        // error handling
-        if(productId <= 0) {
-            throw new IllegalArgumentException();
+            // error handling
+            if (productId <= 0) {
+                throw new IllegalArgumentException();
+            }
+            Product product = productService.getProductById(productId);
+
+            ProductDto productDto = getProductDto(product);
+            MultiValueMap<String, String> header = new LinkedMultiValueMap<>();
+            header.add("Called By", "Zahid");
+            return new ResponseEntity<>(productDto, header, HttpStatus.OK);
+        } catch (IllegalArgumentException ex) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        Product product = productService.getProductById(productId);
-
-        ProductDto productDto = getProductDto(product);
-        return productDto;
     }
 
     @PostMapping("/products")

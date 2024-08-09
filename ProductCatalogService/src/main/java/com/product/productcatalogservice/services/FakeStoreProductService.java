@@ -6,6 +6,7 @@ import com.product.productcatalogservice.model.Product;
 import org.apache.tomcat.util.IntrospectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -23,9 +24,14 @@ public class FakeStoreProductService implements IProductService {
     public Product getProductById(Long id) {
 
         RestTemplate restTemplate = restTemplateBuilder.build();
-        FakestoreProductDto fakestoreProductDto = restTemplate.getForEntity("https://fakestoreapi.com/products/{id}", FakestoreProductDto.class, id).getBody();
+        ResponseEntity<FakestoreProductDto> fakestoreProductDtoResponseEntity = restTemplate.getForEntity("https://fakestoreapi.com/products/{id}", FakestoreProductDto.class, id);
 
-        return getProduct(fakestoreProductDto);
+        if(fakestoreProductDtoResponseEntity.getStatusCode().is2xxSuccessful() && fakestoreProductDtoResponseEntity.getBody() != null){
+            return getProduct(fakestoreProductDtoResponseEntity.getBody());
+        }
+
+
+    return null;
     }
 
     @Override
