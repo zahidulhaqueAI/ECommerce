@@ -32,7 +32,7 @@ public class ProductController {
 
             // error handling
             if (productId <= 0) {
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException("Product Id must be greater than 0");
             }
             Product product = productService.getProductById(productId);
 
@@ -41,7 +41,8 @@ public class ProductController {
             header.add("Called By", "Zahid");
             return new ResponseEntity<>(productDto, header, HttpStatus.OK);
         } catch (IllegalArgumentException ex) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+          //  return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw ex;
         }
     }
 

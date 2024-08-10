@@ -7,3 +7,5 @@ This repository is regarding ECommerce project.I will be using following technol
 
 V1 is ProductCatalog Service. 
 This is has very basic Rest API calls.
+
+V2 User defined exception handling
