@@ -9,3 +9,5 @@ V1 is ProductCatalog Service.
 This is has very basic Rest API calls.
 
 V2 User defined exception handling
+
+V3 Retrieve all product details. You can you use ResponseEntity or without it.

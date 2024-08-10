@@ -11,6 +11,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -32,7 +33,7 @@ public class ProductController {
 
             // error handling
             if (productId <= 0) {
-                throw new IllegalArgumentException("Product Id must be greater than 0");
+                throw new IllegalArgumentException("Product id must be greater than 0");
             }
             Product product = productService.getProductById(productId);
 
@@ -41,9 +42,23 @@ public class ProductController {
             header.add("Called By", "Zahid");
             return new ResponseEntity<>(productDto, header, HttpStatus.OK);
         } catch (IllegalArgumentException ex) {
-          //  return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+           // return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             throw ex;
         }
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ProductDto>> getProducts() {
+        List<Product> allProducts = productService.getAllProducts();
+        List<ProductDto> response = new ArrayList<>();
+
+        for (Product product : allProducts) {
+            response.add(getProductDto(product));
+        }
+     //   return response;
+        MultiValueMap<String, String> header = new LinkedMultiValueMap<>();
+        header.add("Called For", "All Products");
+        return new ResponseEntity<>(response, header, HttpStatus.OK);
     }
 
     @PostMapping("/products")
