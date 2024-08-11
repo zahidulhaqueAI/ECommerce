@@ -11,3 +11,5 @@ This is has very basic Rest API calls.
 V2 User defined exception handling
 
 V3 Retrieve all product details. You can you use ResponseEntity or without it.
+
+V5 Implementation of PUT and POST method.
