@@ -23,7 +23,7 @@ public class FakestoreApiClient {
 
     // get product details by ID
     public FakeStoreProductDto getProductById(Long id) {
-        String url = urlConstants.GETURLBYID + id;
+
         ResponseEntity<FakeStoreProductDto> fakestoreProductDtoResponseEntity =
                 requestForEntity( //url,
                         "https://fakestoreapi.com/products/{id}",
@@ -68,21 +68,36 @@ public class FakestoreApiClient {
 
     // This is DELETE helper method
     public void deleteProductById(Long id) throws RuntimeException {
-        // check if id is valid
-        ResponseEntity<FakeStoreProductDto> dto =
-                requestForEntity(urlConstants.GETURLBYID ,
-                        HttpMethod.GET, null, FakeStoreProductDto.class, id);
 
-        try {
-            if(dto.getBody() == null ) {
-               throw new IllegalArgumentException("BadRequest. Provided id: " + id + " is not a valid id");
-            }
-        } catch(IllegalArgumentException ex) {
-            throw  ex;
+        // check if id is valid
+        FakeStoreProductDto product = getProduct(id);
+        if(product == null){
+            throw new IllegalArgumentException("BadRequest. Provided id: " + id + " is not a valid id");
         }
+
         // Delete Request
-        requestForEntity(urlConstants.DELETEPRODUCTSBYID ,
-                HttpMethod.DELETE, null, FakeStoreProductDto.class, id);
+        deleteProduct(id);
+    }
+
+    private FakeStoreProductDto getProduct(Long id) {
+        try {
+            ResponseEntity<FakeStoreProductDto> dto =
+                    requestForEntity(urlConstants.GETURLBYID,
+                            HttpMethod.GET, null, FakeStoreProductDto.class, id);
+            return dto.getBody();
+        } catch(Exception ex) {
+            // log the exception
+            throw new RuntimeException("Error occurred while retrieving product with ID " + id,ex);
+        }
+    }
+
+    private void deleteProduct(Long id) {
+        try {
+            requestForEntity(urlConstants.DELETEPRODUCTSBYID,
+                    HttpMethod.DELETE, null, FakeStoreProductDto.class, id);
+        } catch (Exception ex) {
+            throw new RuntimeException("Error occurred while deleting the product with ID " + id ,ex);
+        }
     }
 
     // Generic method for GET/POST/PUT/DELETE

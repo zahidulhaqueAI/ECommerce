@@ -16,3 +16,5 @@ V5 Implementation of PUT and POST method.
 
 V6 Implementation of DELETE request.
 All the above requests were implemented using without JPA.
+
+Refactor DELETE request.
