@@ -68,4 +68,16 @@ public class FakestoreProductService implements IProductService {
         FakeStoreProductDto dto = apiClient.replaceProductById(utils.getFakestoreProductDto(product), id);
         return utils.getProduct(dto);
     }
+
+    /*
+    This is DELETE request
+     */
+    @Override
+    public void deleteProductById(Long id) {
+        try {
+            apiClient.deleteProductById(id);
+        } catch (IllegalArgumentException ex) {
+            throw ex;
+        }
+    }
 }

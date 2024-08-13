@@ -13,3 +13,6 @@ V2 User defined exception handling
 V3 Retrieve all product details. You can you use ResponseEntity or without it.
 
 V5 Implementation of PUT and POST method.
+
+V6 Implementation of DELETE request.
+All the above requests were implemented using without JPA.

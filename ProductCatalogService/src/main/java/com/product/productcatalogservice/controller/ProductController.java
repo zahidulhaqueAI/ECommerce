@@ -80,5 +80,20 @@ public class ProductController {
         return new ResponseEntity<>(productUtils.getProductDto(product), HttpStatus.OK);
     }
 
+    // DELETE request
+    @DeleteMapping("products/{id}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable("id") Long id) {
 
+        try {
+            if (id <= 0) {
+                throw new IllegalArgumentException("Product id must be greater than 0");
+            }
+            // error handling. Reject the request if the request id > available id
+            productService.deleteProductById(id);
+
+        } catch (IllegalArgumentException ex) {
+            throw ex;
+        }
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
